@@ -60,8 +60,8 @@ all: main-build
 main-build: SmartGarden.elf secondary-outputs
 
 # Tool invocations
-SmartGarden.elf SmartGarden.map: $(OBJS) $(USER_OBJS) C:\Users\User\STM32CubeIDE\workspace_1.9.0\SmartGarden\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "SmartGarden.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\User\STM32CubeIDE\workspace_1.9.0\SmartGarden\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SmartGarden.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+SmartGarden.elf SmartGarden.map: $(OBJS) $(USER_OBJS) C:\Users\User\Desktop\PMPS\SmartGreenhouse\SmartGarden\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "SmartGarden.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\User\Desktop\PMPS\SmartGreenhouse\SmartGarden\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SmartGarden.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

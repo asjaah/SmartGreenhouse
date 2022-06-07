@@ -130,14 +130,20 @@ void DHT11_Start (void)
 uint8_t DHT11_Check_Response (void)
 {
 	uint8_t Response = 0;
-	delay (40);
-	if (!(HAL_GPIO_ReadPin (DHT11_PORT, DHT11_PIN)))
+	delay(40);
+	if (!(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)))
 	{
-		delay (80);
-		if ((HAL_GPIO_ReadPin (DHT11_PORT, DHT11_PIN))) Response = 1;
-		else Response = -1;
+		delay(80);
+		if ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)))
+			{
+			Response = 1;
+			}
+		else
+			{
+			Response = -1;
+			}
 	}
-	while ((HAL_GPIO_ReadPin (DHT11_PORT, DHT11_PIN)));   // wait for the pin to go low
+	while ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)));   // wait for the pin to go low
 
 	return Response;
 }
@@ -210,12 +216,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  Display_Temp(Temperature);
+	  //Display_Temp(Temperature);
 	  Display_Rh(Humidity);
 
 
 	  DHT11_Start();
 	  Presence = DHT11_Check_Response();
+	  Display_Temp(5.0);
+	  if(Presence == 1)
+	  {
 	  Rh_byte1 = DHT11_Read();
 	  Rh_byte2 = DHT11_Read();
 	  Temp_byte1 = DHT11_Read();
@@ -225,8 +234,9 @@ int main(void)
 	  TEMP = Temp_byte1;
 	  RH = Rh_byte1;
 
-	  Temperature =(float) TEMP;
+	  Temperature = (float) TEMP;
 	  Humidity = (float) RH;
+	  }
 
 
 	  HAL_Delay(1000);
@@ -333,7 +343,7 @@ static void MX_TIM6_Init(void)
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 50-1;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 65535;
+  htim6.Init.Period = 0xffff-1;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
@@ -366,10 +376,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pin : PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

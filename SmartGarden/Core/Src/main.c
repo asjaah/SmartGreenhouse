@@ -115,7 +115,7 @@ void Set_Pin_Input(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
 // ---------------------DHT11---------------------
 
 #define DHT11_PORT GPIOA
-#define DHT11_PIN GPIO_PIN_1
+#define DHT11_PIN GPIO_PIN_6
 
 void DHT11_Start (void)
 {
@@ -131,10 +131,10 @@ uint8_t DHT11_Check_Response (void)
 {
 	uint8_t Response = 0;
 	delay(40);
-	if (!(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)))
+	if (!(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)))
 	{
 		delay(80);
-		if ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)))
+		if ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)))
 			{
 			Response = 1;
 			}
@@ -143,7 +143,7 @@ uint8_t DHT11_Check_Response (void)
 			Response = -1;
 			}
 	}
-	while ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)));   // wait for the pin to go low
+	while ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)));   // wait for the pin to go low
 
 	return Response;
 }
@@ -216,15 +216,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //Display_Temp(Temperature);
+	  Display_Temp(Temperature);
 	  Display_Rh(Humidity);
 
 
 	  DHT11_Start();
 	  Presence = DHT11_Check_Response();
-	  Display_Temp(5.0);
-	  if(Presence == 1)
-	  {
 	  Rh_byte1 = DHT11_Read();
 	  Rh_byte2 = DHT11_Read();
 	  Temp_byte1 = DHT11_Read();
@@ -236,8 +233,6 @@ int main(void)
 
 	  Temperature = (float) TEMP;
 	  Humidity = (float) RH;
-	  }
-
 
 	  HAL_Delay(1000);
   }
@@ -376,10 +371,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  /*Configure GPIO pin : PA6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
